@@ -14,7 +14,8 @@ FILES =
 
 deps = new Deps.Dependency
 loaded = false
-loadCount = 0;
+loadCount = 0
+map = {}
 
 loadedCallback = ()->
   loadCount--
@@ -106,6 +107,15 @@ Template.queries.name_class = ()->
 Template.query.coolDate = ()->
   return new Date(@.date).toLocaleTimeString()
 
+Template.query.events
+  'click .remove': (e)->
+    Venues.find(query_id: @._id, sort: name: 1).forEach (venue) ->
+      Venues.remove venue._id
+    Queries.remove @._id
+
+    e.preventDefault();
+
+
 Template.venues.loading = ()->
   return venuesHandle && !venuesHandle.ready()
 
@@ -169,23 +179,21 @@ Deps.autorun ()->
           marker.addTo map
 
 Template.body.events
-  'click .search': () ->
-
   'keyup #search': (e)->
       if e.keyCode == 13
         HTTP.get 'https://api.foursquare.com/v2/venues/search',
           params:
-              'client_id': 'QVFFGLAA2LCWS5254V5SJQMUQPJUYINMHJUG2WBNBR3ODJUJ',
-              'client_secret': '40313CVVGTFRD5H1XDSSXWHWRNQ42RTBRPGWT1WSF0PE2X5Q',
-              'v': '20130815',
-              'll': map.getCenter().lat+','+ map.getCenter().lng,
-              'radius': map.getCenter().distanceTo map.getBounds().getNorthWest() .toFixed(0),
-              'query': e.target.value
+              client_id: 'QVFFGLAA2LCWS5254V5SJQMUQPJUYINMHJUG2WBNBR3ODJUJ',
+              client_secret: '40313CVVGTFRD5H1XDSSXWHWRNQ42RTBRPGWT1WSF0PE2X5Q',
+              v: '20130815',
+              ll: map.getCenter().lat+','+ map.getCenter().lng,
+              radius: map.getCenter().distanceTo(map.getBounds().getNorthWest()).toFixed(0),
+              query: e.target.value
 
           ,(error, data)->
               id = Queries.insert
                 name: e.target.value,
-                radius: map.getCenter().distanceTo map.getBounds().getNorthWest().toFixed(0),
+                radius: map.getCenter().distanceTo(map.getBounds().getNorthWest()).toFixed(0),
                 date: new Date(),
                 lat: map.getCenter().lat,
                 lng: map.getCenter().lng
