@@ -1,0 +1,40 @@
+html, body {
+    height: 100%;
+}
+body, input {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+input {
+    font-size: 100%;
+}
+.right-column{
+    text-align: right;
+}
+.left-column{
+    text-align: left;
+}
+.venues-store{
+    height: 400px;
+    overflow: auto;
+    margin-top:20px;
+}
+.mapbox-store{
+    height: 400px;
+    margin-top:20px;
+}
+.queries-store{
+    height: 200px;
+    overflow-y: auto;
+    margin-top:20px;
+}
+.login-store{
+    height: 40px;
+    margin-top: 20px;
+}
+#search{
+    width: 100%;
+
+}
+.search-store{
+    height: 20px;
+}

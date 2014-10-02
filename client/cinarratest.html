@@ -1,0 +1,112 @@
+<head>
+  <title>Todos</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row login-store">
+            <div class="pull-right">
+            {{> loginButtons align='right'}}
+            </div>
+        </div>
+        <div class="row search-store">
+            <input id="search" name="search" placeholder="Search"/>
+        </div>
+
+        <div class="row queries-store">
+            {{> queries}}
+        </div>
+
+        <div id="mapbox" class="row mapbox-store"></div>
+
+        <div class="row venues-store">
+            {{> venues}}
+        </div>
+    </div>
+</body>
+
+<template name="queries">
+  {{#if loading}}
+    <div id="lists">Loading...</div>
+  {{else}}
+    <table id="queries-store" style="width: 100%;">
+      {{#each queries}}
+        {{> query}}
+      {{/each}}
+    </table>
+  {{/if}}
+</template>
+
+<template name="venues">
+  {{#if any_query_selected}}
+      {{#if loading}}
+        Loading...
+      {{else}}
+        <table style="width: 100%;">
+            <thead>
+                <th class="left-column">Name</th>
+                <th class="right-column">City</th>
+                <th class="right-column">Country</th>
+                <th class="right-column">Address</th>
+                <th class="right-column">Latitude</th>
+                <th class="right-column">Longitude</th>
+            </thead>
+            <tbody>
+              {{#each venues}}
+                {{> venue}}
+              {{/each}}
+            </tbody>
+        </table>
+      {{/if}}
+  {{/if}}
+</template>
+
+<template name="query">
+    <tr class="query {{selected}}">
+        <td class="display">
+            <a class="list-name {{name_class}}" href="/{{_id}}">
+                {{name}}
+            </a>
+        </td>
+        <td class="right-column">
+                {{lat}}
+        </td>
+        <td class="right-column">
+                {{lng}}
+        </td>
+        <td class="right-column">
+                {{radius}}m.
+        </td>
+        <td class="right-column">
+                {{coolDate}}
+        </td>
+        <td class="right-column">
+            <a class="list-name {{name_class}}" href="/delete/{{_id}}">
+                удалить
+            </a>
+        </td>
+    </tr>
+</template>
+
+<template name="venue">
+    <tr>
+        <td>
+            {{name}}
+        </td>
+        <td class="right-column">
+            {{city}}
+        </td>
+        <td class="right-column">
+            {{country}}
+        </td>
+        <td class="right-column">
+            {{address}}
+        </td>
+        <td class="right-column">
+            {{lat}}
+        </td>
+        <td class="right-column">
+            {{lng}}
+        </td>
+    </tr>
+</template>
